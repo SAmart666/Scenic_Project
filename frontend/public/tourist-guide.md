@@ -6,7 +6,7 @@
 - 文件位置：`frontend/public/tourist.html`
 - 适配移动端，界面简洁可用
 - 已对接后端接口，使用 `/api/v1/...` 格式，符合团队规范
-images/image5.png
+![数据库执行命令](./images/image1.png)
 
 ### 🔗 访问方式
 
