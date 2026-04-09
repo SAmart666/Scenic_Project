@@ -57,7 +57,6 @@ http://localhost:5173/tourist.html
 
 ### 📂 文件结构
 
-```
 scenic-digital-human/
 ├── frontend/
 │   ├── public/
@@ -66,7 +65,6 @@ scenic-digital-human/
 ├── backend/
 │   └── main.py
 └── ...
-```
 
 ---
 
