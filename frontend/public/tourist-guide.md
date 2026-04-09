@@ -7,7 +7,7 @@
 - 适配移动端，界面简洁可用
 - 已对接后端接口，使用 `/api/v1/...` 格式，符合团队规范
 
-![游客端界面](../images/image5.png)
+![游客端界面](/images/image5.png)
 ### 🔗 访问方式
 
 ```（需先启动前端 `npm run dev` 和后端 `python main.py`）
