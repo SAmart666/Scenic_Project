@@ -203,6 +203,76 @@ def get_logs_list(
         "message": "success"
     }
 
+@app.get("/api/v1/stats/analysis", tags=["数据统计"])
+def get_analysis_stats(db: Session = Depends(database.get_db)):
+    """获取数据分析统计数据"""
+    try:
+        # 获取所有对话日志
+        logs = db.query(models.ConversationLog).all()
+        
+        # 1. 热门问题统计
+        questions = [log.question for log in logs]
+        question_counts = {}
+        for q in questions:
+            if q in question_counts:
+                question_counts[q] += 1
+            else:
+                question_counts[q] = 1
+        hot_questions = sorted(question_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        
+        # 2. 游客关注点分析
+        keywords = [
+            '门票', '价格', '开放', '时间', '路线', '导览', '景点', '历史', '文化',
+            '美食', '住宿', '交通', '停车', '厕所', '服务', '设施', '活动', '表演'
+        ]
+        keyword_counts = {}
+        for log in logs:
+            for keyword in keywords:
+                if keyword in log.question:
+                    if keyword in keyword_counts:
+                        keyword_counts[keyword] += 1
+                    else:
+                        keyword_counts[keyword] = 1
+        focus_points = sorted(keyword_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        
+        # 3. 情感分析
+        positive_words = ['好', '棒', '满意', '喜欢', '赞', '感谢', '谢谢', '不错', '优秀']
+        negative_words = ['差', '糟糕', '不满', '失望', '讨厌', '问题', '投诉', '贵', '慢']
+        sentiment = {'positive': 0, 'negative': 0, 'neutral': 0}
+        
+        for log in logs:
+            positive_count = sum(1 for word in positive_words if word in log.question)
+            negative_count = sum(1 for word in negative_words if word in log.question)
+            if positive_count > negative_count:
+                sentiment['positive'] += 1
+            elif negative_count > positive_count:
+                sentiment['negative'] += 1
+            else:
+                sentiment['neutral'] += 1
+        
+        # 4. 响应时间分析
+        response_times = [log.response_time for log in logs if log.response_time]
+        response_time_stats = {
+            'average': sum(response_times) / len(response_times) if response_times else 0,
+            'max': max(response_times) if response_times else 0,
+            'min': min(response_times) if response_times else 0
+        }
+        
+        return {
+            "code": 200,
+            "data": {
+                "hot_questions": hot_questions,
+                "focus_points": focus_points,
+                "sentiment": sentiment,
+                "response_time": response_time_stats,
+                "total_logs": len(logs)
+            },
+            "message": "success"
+        }
+    except Exception as e:
+        logger.error(f"数据分析接口异常: {str(e)}")
+        raise HTTPException(status_code=500, detail="获取数据分析失败")
+
 # 将以下代码加入 main.py 的路由区域
 
 @app.get("/api/v1/config", tags=["数字人配置"])
