@@ -55,15 +55,16 @@
 ![api页面](./images/image3.png)
 
 ### 第三步：启动管理前端服务
-1. 打开一个新的终端，进入 frontend 目录
-2. 下载前端依赖包（这步会自动生成 node_modules 文件夹）,在该目录终端中输入
+1. 确保你的电脑上安装Node.js(推荐 v16+ 或 v18+)。
+   Node.js 安装指南（Windows 版本）https://youmoxiang.blog.csdn.net/article/details/154790636
+3. 打开一个新的终端，进入 frontend 目录，下载前端依赖包（这步会自动生成 node_modules 文件夹）,在该目录终端中输入
     ```Bash
     npm install
-3. 启动本地开发服务器
+4. 启动本地开发服务器
     在目录终端中输入
     ```Bash
     npm run dev
-4. 启动后，按住 Ctrl 单击终端里显示的链接<http://localhost:5173>
+5. 启动后，按住 Ctrl 单击终端里显示的链接<http://localhost:5173>
     即可访问管理后台。
 ![管理前端页面](./images/image4.png)
 
